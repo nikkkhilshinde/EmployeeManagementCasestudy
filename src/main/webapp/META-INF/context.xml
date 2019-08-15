@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<Context>
+    <Resource name="jdbc/xe" auth="Container" type="javax.sql.DataSource"
+              maxActive="50" maxIdle="30" maxWait="10000"
+              username="hr" password="hr"
+              driverClassName="oracle.jdbc.OracleDriver"
+              url="jdbc:oracle:thin:@localhost:1521:XE"/>
+</Context>
