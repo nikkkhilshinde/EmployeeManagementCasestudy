@@ -75,20 +75,41 @@
 
     <%--    /////////////////////////////////--%>
 
-    <%
-        if (config.getServletContext().getAttribute("errorMessage") != null) {
-            out.print("<div class=\"card\" style=\"border-radius: 25px;border: 2px solid #73AD21;\" >\n" +
-                    "        <h5 class=\"card-header\" style=\"color: red\">Unable to Create new Employee</h5>\n" +
-                    "        <div class=\"card-body\">");
-            out.println(config.getServletContext().getAttribute("errorMessage"));
-            out.println("</div>\n" +
-                    "    </div>");
-            config.getServletContext().removeAttribute("errorMessage");
-        }
-    %>
+
 
 
     <%--    ////////////////////////////////////////////////--%>
+        <%
+            if(config.getServletContext().getAttribute("errorMessage")!=null){
+                out.print("<div class=\"card border-dark mb-3\" style=\"border-radius: 25px;border: 2px solid #73AD21;\">\n" +
+                        "            <div class=\"card-header\">\n" +
+                        "                <div style=\"color: red\">Error</div>\n" +
+                        "            </div>\n" +
+                        "            <div class=\"card-body\"> ");
+                out.println(config.getServletContext().getAttribute("errorMessage"));
+                out.println("</div>\n" +
+                        "        </div>");
+                config.getServletContext().removeAttribute("errorMessage");
+            }
+        %>
+        <%
+            if(config.getServletContext().getAttribute("successMessage")!=null){
+                out.print("<div class=\"card border-dark mb-3\" style=\"border-radius: 25px;border: 2px solid #73AD21;\">\n" +
+                        "            <div class=\"card-header\">\n" +
+                        "                <div style=\"color: red\">Message</div>\n" +
+                        "            </div>\n" +
+                        "            <div class=\"card-body\"> ");
+                out.println(config.getServletContext().getAttribute("successMessage"));
+                out.println("</div>\n" +
+                        "        </div>");
+                config.getServletContext().removeAttribute("successMessage");
+            }
+        %>
+
+
+
+
+
 
 
     <div class="card border-dark mb-3" style="border-radius: 25px;border: 2px solid #73AD21;">
@@ -96,7 +117,7 @@
             Add New Employee
         </div>
 
-        <form action="insert" method="post">
+        <form action="editEmployee" method="post">
             <div class="card-body">
 
                 <div class="input-group mb-3">
@@ -108,85 +129,7 @@
                            aria-describedby="basic-addon1"
                            required>
                 </div>
-
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="">First and last name</span>
-                    </div>
-                    <input name="firstName" type="text" class="form-control" placeholder="First Name" required>
-                    <input name="lastName" type="text" class="form-control" placeholder="Last Name" required >
-                </div>
-
-                <br>
-
-
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">Department Id</span>
-                    </div>
-                    <input name="departmentId" type="text" class="form-control" placeholder="Department Id"
-                           aria-label="employeeId"
-                           aria-describedby="basic-addon1"
-                           required>
-                </div>
-
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="">Date of joing and Date of Birth</span>
-                    </div>
-                    <input name="dateOfJoining" type="date" class="form-control" placeholder="Date of Joining" required>
-                    <input name="dateOfBirth" type="date" class="form-control" placeholder="Date of Birth" required>
-                </div>
-
-                <br>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect01">Grade</label>
-                    </div>
-                    <select name="grade" class="custom-select" id="inputGroupSelect01">
-                        <option selected>Choose Grade</option>
-                        <option value="G1" selected>G1</option>
-                        <option value="G2">G2</option>
-                        <option value="G3">G3</option>
-                        <option value="G4">G4</option>
-                        <option value="G5">G5</option>
-                        <option value="G6">G6</option>
-                        <option value="G7">G7</option>
-                    </select>
-                </div>
-
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">Designation</span>
-                    </div>
-                    <input name="designation" type="text" class="form-control" placeholder="Designation "
-                           aria-label="employeeId"
-                           aria-describedby="basic-addon1">
-                </div>
-
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect01">Gender</label>
-                    </div>
-                    <select name="gender" class="custom-select" id="inputGroupSelect01">
-                        <option selected>Choose Gender</option>
-                        <option value="Male" selected>Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                </div>
-
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">₹</span>
-                    </div>
-                    <input name="basePay" type="text" class="form-control" placeholder="Salary"
-                           aria-label="Amount (to the nearest dollar)"
-                           required>
-                    <div class="input-group-append">
-                        <span class="input-group-text">.00</span>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 321px">Add employee</button>
+                <button type="submit" class="btn btn-primary" style="width: 321px">Search employee</button>
             </div>
         </form>
     </div>

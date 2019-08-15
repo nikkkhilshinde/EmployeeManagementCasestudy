@@ -35,7 +35,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark"  style="background-color: #e3f2fd;"> -->
-    <a class="navbar-brand" href="#" style="margin-left:210px"><b>Employee management</b></a>
+    <a class="navbar-brand" href="adminHomepage.jsp" style="margin-left:210px"><b>Employee management</b></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -122,8 +122,8 @@
         <div class="col-md-4">
             <div class="card border-dark mb-3" style="border-radius: 25px;border: 2px solid #73AD21;">
                 <div class="card-body ">
-                    <form action="inputDetails.jsp" method="post">
-                        <input style="width: 100%;height: 100px" class="btn btn-outline-success" type="submit"
+                    <form action="searchEmployee.jsp" method="post">
+                        <input  style="width: 100%;height: 100px" class="btn btn-outline-success" type="submit"
                                value="Edit Employee"></form>
                     </form>
                 </div>

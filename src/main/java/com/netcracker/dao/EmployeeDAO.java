@@ -12,6 +12,75 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class EmployeeDAO {
+
+
+    public String updateEmployee(Employee employee){
+        try(Connection connection = ConnectionUtil.getConnection()){
+            PreparedStatement preparedStatement = connection.prepareStatement(Constant.updateEmployeeById);
+
+            Date dateOfjoining = new SimpleDateFormat("yyyy-MM-dd").parse(employee.getDateOfJoining());
+            Date dateOfBith = new SimpleDateFormat("yyyy-MM-dd").parse(employee.getDateOfBirth());
+
+            preparedStatement.setInt(10,employee.getEmployeeId());
+            preparedStatement.setString(1,employee.getFirstName());
+            preparedStatement.setString(2,employee.getLastName());
+            preparedStatement.setDate(3, java.sql.Date.valueOf(employee.getDateOfJoining().toString()));
+            preparedStatement.setDate(4, java.sql.Date.valueOf(employee.getDateOfBirth().toString()));
+            preparedStatement.setString(5,employee.getDepartmentId());
+            preparedStatement.setString(6,employee.getGrade());
+            preparedStatement.setString(7,employee.getDesignation());
+            preparedStatement.setString(8,employee.getGender());
+            preparedStatement.setInt(9,employee.getBasePay());
+
+            int i = preparedStatement.executeUpdate();
+
+            return "true";
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return e.getMessage();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+
+    }
+
+    public Employee getEmployeeById(Employee employee){
+        Employee retrievedEmployee = null;
+
+        try(Connection connection = ConnectionUtil.getConnection()){
+            PreparedStatement preparedStatement = connection.prepareStatement(Constant.getEmployeeById);
+            preparedStatement.setInt(1,employee.getEmployeeId());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                Date dateOfJoining = resultSet.getDate("date_of_joining");
+                Date dateOfBirth = resultSet.getDate("date_of_birth");
+                Integer departmentId = resultSet.getInt("department_id");
+                Integer basePay = resultSet.getInt("base_pay");
+
+                retrievedEmployee = new Employee();
+                retrievedEmployee.setEmployeeId(resultSet.getInt("employee_id"));
+                retrievedEmployee.setFirstName(resultSet.getString("first_name"));
+                retrievedEmployee.setLastName(resultSet.getString("last_name"));
+                retrievedEmployee.setDateOfJoining(dateOfJoining.toString());
+                retrievedEmployee.setDateOfBirth(dateOfBirth.toString());
+                retrievedEmployee.setDepartmentId(departmentId.toString());
+                retrievedEmployee.setGrade(resultSet.getString("grade"));
+                retrievedEmployee.setDesignation(resultSet.getString("designation"));
+                retrievedEmployee.setGender(resultSet.getString("gender"));
+                retrievedEmployee.setBasePay(basePay);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return retrievedEmployee;
+    }
+
+
+
+
+
     ArrayList<Employee> allEmployees = new ArrayList<>();
     public ArrayList<Employee> getAllEmployees(){
         try(Connection connection = ConnectionUtil.getConnection()){

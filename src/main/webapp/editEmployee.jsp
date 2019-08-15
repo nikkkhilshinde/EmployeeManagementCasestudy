@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.netcracker.dto.Employee" %><%--
   Created by IntelliJ IDEA.
   User: shind
   Date: 8/10/2019
@@ -75,28 +75,19 @@
 
     <%--    /////////////////////////////////--%>
 
-    <%
-        if (config.getServletContext().getAttribute("errorMessage") != null) {
-            out.print("<div class=\"card\" style=\"border-radius: 25px;border: 2px solid #73AD21;\" >\n" +
-                    "        <h5 class=\"card-header\" style=\"color: red\">Unable to Create new Employee</h5>\n" +
-                    "        <div class=\"card-body\">");
-            out.println(config.getServletContext().getAttribute("errorMessage"));
-            out.println("</div>\n" +
-                    "    </div>");
-            config.getServletContext().removeAttribute("errorMessage");
-        }
-    %>
+
 
 
     <%--    ////////////////////////////////////////////////--%>
-
+<% Employee employee = (Employee) config.getServletContext().getAttribute("retrievedEmployee");
+%>
 
     <div class="card border-dark mb-3" style="border-radius: 25px;border: 2px solid #73AD21;">
         <div class="card-header">
             Add New Employee
         </div>
 
-        <form action="insert" method="post">
+        <form action="update" method="post">
             <div class="card-body">
 
                 <div class="input-group mb-3">
@@ -106,15 +97,16 @@
                     <input name="employeeId" type="text" class="form-control" placeholder="Employee Id"
                            aria-label="employeeId"
                            aria-describedby="basic-addon1"
-                           required>
+                           required readonly="true"
+                    value="<%= employee.getEmployeeId()%>">
                 </div>
 
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="">First and last name</span>
                     </div>
-                    <input name="firstName" type="text" class="form-control" placeholder="First Name" required>
-                    <input name="lastName" type="text" class="form-control" placeholder="Last Name" required >
+                    <input name="firstName" type="text" class="form-control" placeholder="First Name" required value="<%= employee.getFirstName()%>" >
+                    <input name="lastName" type="text" class="form-control" placeholder="Last Name" required  value="<%= employee.getLastName()%>" >
                 </div>
 
                 <br>
@@ -127,7 +119,8 @@
                     <input name="departmentId" type="text" class="form-control" placeholder="Department Id"
                            aria-label="employeeId"
                            aria-describedby="basic-addon1"
-                           required>
+                           required
+                           value="<%= employee.getDepartmentId()%>">
                 </div>
 
                 <div class="input-group">
@@ -161,7 +154,8 @@
                     </div>
                     <input name="designation" type="text" class="form-control" placeholder="Designation "
                            aria-label="employeeId"
-                           aria-describedby="basic-addon1">
+                           aria-describedby="basic-addon1"
+                           value="<%= employee.getDesignation()%>">
                 </div>
 
                 <div class="input-group mb-3">
@@ -181,7 +175,8 @@
                     </div>
                     <input name="basePay" type="text" class="form-control" placeholder="Salary"
                            aria-label="Amount (to the nearest dollar)"
-                           required>
+                           required
+                           value="<%= employee.getBasePay()%>">
                     <div class="input-group-append">
                         <span class="input-group-text">.00</span>
                     </div>

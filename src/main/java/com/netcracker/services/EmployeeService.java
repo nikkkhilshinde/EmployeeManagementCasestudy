@@ -23,4 +23,25 @@ public class EmployeeService {
         }
         return "false";
     }
+
+    public Employee getEmployeeById(Employee employee){
+
+        Employee retrievedEmployee = dao.getEmployeeById(employee);
+
+        if(retrievedEmployee!=null){
+            return retrievedEmployee;
+        }
+        return retrievedEmployee;
+    }
+
+    public String updateEmployee(Employee employee){
+        String temp = dao.updateEmployee(employee);
+        if(temp.equals("true")){
+            return "true";
+        }
+        else{
+            return temp;
+        }
+
+    }
 }
