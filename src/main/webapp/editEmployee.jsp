@@ -59,12 +59,15 @@
             </li>
 
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+<%--        <form class="form-inline my-2 my-lg-0">--%>
 
-            <button type="button" style="margin-right: 210px" class="btn btn-outline-info" data-toggle="modal"
-                    data-target="#myModal">
-                Show profile
-            </button>
+<%--            <button type="button" style="margin-right: 210px" class="btn btn-outline-info" data-toggle="modal"--%>
+<%--                    data-target="#myModal">--%>
+<%--                Show profile--%>
+<%--            </button>--%>
+<%--        </form>--%>
+        <form action="logout" method="post">
+            <input type="submit" class="btn btn-danger" value="Logout" style="margin-right: 210px">
         </form>
     </div>
 </nav>
@@ -208,7 +211,9 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Logout</button>
+                <form action="logout" method="post">
+                    <button type="submit" class="btn btn-danger" data-dismiss="modal">Logout</button>
+                </form>
             </div>
 
         </div>

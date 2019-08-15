@@ -45,26 +45,29 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <button class="btn btn-outline-dark my-2 my-sm-0" style="margin-right: 7px" type="submit">Add new
-                    Employee
-                </button>
-            </li>
-            <li class="nav-item">
-                <button class="btn btn-outline-dark my-2 my-sm-0" style="margin-right: 7px" type="submit">Show all
-                </button>
-            </li>
-            <li class="nav-item">
-                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Edit employee</button>
-            </li>
+<%--            <li class="nav-item active">--%>
+<%--                <button class="btn btn-outline-dark my-2 my-sm-0" style="margin-right: 7px" type="submit">Add new--%>
+<%--                    Employee--%>
+<%--                </button>--%>
+<%--            </li>--%>
+<%--            <li class="nav-item">--%>
+<%--                <button class="btn btn-outline-dark my-2 my-sm-0" style="margin-right: 7px" type="submit">Show all--%>
+<%--                </button>--%>
+<%--            </li>--%>
+<%--            <li class="nav-item">--%>
+<%--                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Edit employee</button>--%>
+<%--            </li>--%>
 
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+<%--        <form class="form-inline my-2 my-lg-0">--%>
 
-            <button type="button" style="margin-right: 210px" class="btn btn-outline-info" data-toggle="modal"
-                    data-target="#myModal">
-                Show profile
-            </button>
+<%--            <form action="logout" method="post">--%>
+<%--                <input type="submit" class="btn btn-danger" value="Logout" style="margin-right: 210px">--%>
+<%--            </form>--%>
+<%--        </form>--%>
+
+        <form action="logout" method="post">
+            <input type="submit" class="btn btn-danger" value="Logout" style="margin-right: 210px">
         </form>
     </div>
 </nav>
@@ -213,7 +216,9 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Logout</button>
+                <form action="logout" method="post">
+                    <button type="submit" class="btn btn-danger" data-dismiss="modal">Logout</button>
+                </form>
             </div>
 
         </div>
