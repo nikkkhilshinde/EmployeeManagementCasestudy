@@ -29,6 +29,7 @@ public class InsertRecord extends HttpServlet {
         Employee employee = new Employee();
 
 
+
         String employeeId = req.getParameter("employeeId");
         String basePay = req.getParameter("basePay");
 
@@ -44,9 +45,18 @@ public class InsertRecord extends HttpServlet {
         employee.setBasePay(Integer.parseInt(basePay));
 
         try {
-            employeeService.saveEmployeeDetails(employee);
-            resp.getWriter().println("Record inserted successfully");
+            String message = employeeService.saveEmployeeDetails(employee);
+            if("true".equals(message)){
+                req.getServletContext().setAttribute("successMessage","New Employee created successfully");
+                req.getRequestDispatcher("adminHomepage.jsp").forward(req,resp);
+            }
+            else{
+                req.getServletContext().setAttribute("errorMessage","Error while inserting record");
+                req.getRequestDispatcher("inputDetails.jsp").forward(req,resp);
+            }
+
         } catch (SQLException e) {
+            req.getServletContext().setAttribute("errorMessage","exception Error while inserting record");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("inputDetails.jsp");
             requestDispatcher.forward(req, resp);
         }

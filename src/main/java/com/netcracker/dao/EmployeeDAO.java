@@ -77,7 +77,7 @@ public class EmployeeDAO {
 //        return result;
 //    }
 
-    public boolean saveEmployeeDetails(Employee employee){
+    public String saveEmployeeDetails(Employee employee){
         Connection connection = ConnectionUtil.getConnection();
 
         try{
@@ -100,14 +100,14 @@ public class EmployeeDAO {
             System.out.println(java.sql.Date.valueOf("2013-09-04"));
 
             int i = preparedStatement.executeUpdate();
-            return true;
+            return "true";
         }
         catch (SQLException ae){
             ae.printStackTrace();
-            return false;
+            return "false";
         } catch (ParseException e) {
             e.printStackTrace();
-            return false;
+            return "false";
         }
     }
 }

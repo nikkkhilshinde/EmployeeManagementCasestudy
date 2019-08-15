@@ -3,6 +3,7 @@ package com.netcracker.servlet;
 import com.netcracker.dto.Employee;
 import com.netcracker.services.EmployeeService;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,9 +25,14 @@ public class ShowAll  extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ArrayList<Employee> allEmployees = employeeService.getAllEmployees();
-        for (Employee employee:allEmployees
-             ) {
-            resp.getWriter().println("Name:"+employee.getFirstName());
-        }
+        req.setAttribute("allEmployees",allEmployees);
+
+//        for (Employee employee:allEmployees
+//             ) {
+//            resp.getWriter().println("Name:"+employee.getFirstName());
+//        }
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("showAllEmployee.jsp");
+        requestDispatcher.forward(req,resp);
+
     }
 }

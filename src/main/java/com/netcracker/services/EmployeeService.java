@@ -16,11 +16,11 @@ public class EmployeeService {
 
     }
 
-    public Boolean saveEmployeeDetails(Employee employee) throws SQLException {
+    public String saveEmployeeDetails(Employee employee) throws SQLException {
         Boolean result = false;
-        if (dao.saveEmployeeDetails(employee)) {
-            result = true;
+        if (dao.saveEmployeeDetails(employee).equals("true")) {
+            return "true";
         }
-        return result;
+        return "false";
     }
 }
