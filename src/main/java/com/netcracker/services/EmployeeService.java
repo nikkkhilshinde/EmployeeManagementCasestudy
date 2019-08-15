@@ -13,6 +13,7 @@ public class EmployeeService {
     public ArrayList<Employee> getAllEmployees(){
         ArrayList<Employee> allEmployees =  dao.getAllEmployees();
         return allEmployees;
+
     }
 
     public Boolean saveEmployeeDetails(Employee employee) throws SQLException {
