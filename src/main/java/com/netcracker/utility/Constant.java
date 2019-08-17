@@ -1,5 +1,8 @@
 package com.netcracker.utility;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Constant {
     //public static String getEmployeeByUsernameAndPassword = "SELECT * FROM temp WHERE USERNAME = ? AND PASSWORD = ?";
     public static String setEmployeeDetails = "INSERT INTO EMPTABLE VALUES(?,?,?,?,?,?,?,?,?,?)";

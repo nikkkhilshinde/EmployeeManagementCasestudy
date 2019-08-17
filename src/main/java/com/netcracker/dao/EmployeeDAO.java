@@ -10,9 +10,26 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EmployeeDAO {
+    private static Map<String,String> errorMap = new HashMap<>();
 
+    public EmployeeDAO(){
+        errorMap.put("20001","Employee should be atleast 18 year old");
+        errorMap.put("02290","Employee Id should be 6 digits only and should not start with 0");
+        errorMap.put("02291","Department Not found");
+        errorMap.put("01438","Employee Id must be 6 digits");
+        errorMap.put("00001","Employee already exist");
+        errorMap.put("2291","Department Not found");
+        errorMap.put("2290","Employee Id should be 6 digits only and should not start with 0");
+
+    }
+
+    public static String getErrorMessage(String errorCode){
+        return errorMap.get(errorCode);
+    }
 
     public String updateEmployee(Employee employee){
         try(Connection connection = ConnectionUtil.getConnection()){
@@ -36,8 +53,15 @@ public class EmployeeDAO {
 
             return "true";
         } catch (SQLException e) {
-            e.printStackTrace();
-            return e.getMessage();
+//            e.printStackTrace();
+//            return EmployeeDAO.getErrorMessage(String.valueOf(e.getErrorCode()));
+            String errorMessage = EmployeeDAO.getErrorMessage(String.valueOf(e.getErrorCode()));
+            if(errorMessage!=null){
+                return errorMessage;
+            }
+            else{
+                return e.getMessage()+"Error code:"+e.getErrorCode();
+            }
         } catch (ParseException e) {
             e.printStackTrace();
             return e.getMessage();
@@ -172,11 +196,18 @@ public class EmployeeDAO {
             return "true";
         }
         catch (SQLException ae){
-            ae.printStackTrace();
-            return "false";
+            //return EmployeeDAO.getErrorMessage(String.valueOf(ae.getErrorCode()));
+            String errorMessage = EmployeeDAO.getErrorMessage(String.valueOf(ae.getErrorCode()));
+            if(errorMessage!=null){
+                return errorMessage;
+            }
+            else{
+                return ae.getMessage()+"Errorcode:"+ae.getErrorCode();
+            }
+            //return EmployeeDAO.getErrorMessage(String.valueOf(ae.getErrorCode()));
         } catch (ParseException e) {
             e.printStackTrace();
-            return "false";
+            return e.getLocalizedMessage();
         }
     }
 }

@@ -8,6 +8,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    if (session.getAttribute("username") == null) {
+        response.sendRedirect("index.jsp");
+    }
+%>
 <html>
 <head>
     <title>Title</title>
@@ -148,9 +153,8 @@
     out.print("    </tbody>\n" +
             "</table>");
 %>
-        </div>
-    </div>
-
+            <div class="d-inline p-2 bg-primary text-white">d-inline</div>
+            <div class="d-inline p-2 bg-dark text-white">d-inline</div>
 
 </div>
 

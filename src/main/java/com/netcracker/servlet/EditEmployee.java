@@ -27,8 +27,12 @@ public class EditEmployee extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Employee employee = new Employee();
-        employee.setEmployeeId(Integer.parseInt(req.getParameter("employeeId")));
 
+        try{employee.setEmployeeId(Integer.parseInt(req.getParameter("employeeId")));}
+        catch(NumberFormatException a){
+            req.getServletContext().setAttribute("errorMessage","Employee Id should be integer");
+            req.getRequestDispatcher("searchEmployee.jsp").forward(req,resp);
+        }
         Employee retrievedEmployee =  employeeService.getEmployeeById(employee);
 
         if(retrievedEmployee!=null){

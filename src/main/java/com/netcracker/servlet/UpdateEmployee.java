@@ -45,7 +45,13 @@ public class UpdateEmployee extends HttpServlet {
             employee.setDesignation(req.getParameter("designation"));
             employee.setGender(req.getParameter("gender"));
             employee.setGrade(req.getParameter("grade"));
-            employee.setBasePay(Integer.parseInt(basePay));
+            try{
+                employee.setBasePay(Integer.parseInt(basePay));
+            }
+            catch (NumberFormatException ae){
+                req.getServletContext().setAttribute("errorMessage","Salary should be integer");
+                req.getRequestDispatcher("searchEmployee.jsp").forward(req,resp);
+            }
 
 
             String message = employeeService.updateEmployee(employee);

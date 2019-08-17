@@ -17,11 +17,11 @@ public class EmployeeService {
     }
 
     public String saveEmployeeDetails(Employee employee) throws SQLException {
-        Boolean result = false;
-        if (dao.saveEmployeeDetails(employee).equals("true")) {
+        String result = dao.saveEmployeeDetails(employee);
+        if (result.equals("true")) {
             return "true";
         }
-        return "false";
+        return result;
     }
 
     public Employee getEmployeeById(Employee employee){
