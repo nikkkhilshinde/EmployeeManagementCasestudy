@@ -118,7 +118,7 @@
 
     <div class="card border-dark mb-3" style="border-radius: 25px;border: 2px solid #73AD21;">
         <div class="card-header">
-            Add New Employee
+            Search and edit  Employee
         </div>
 
         <form action="editEmployee" method="post">

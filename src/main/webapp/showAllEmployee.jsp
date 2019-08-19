@@ -40,7 +40,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <title>Hello, world!</title>
 </head>
-<body class="bg-dark">
+<body class="bg-dark" >
 
 <!-- //////////////////////////////////////// -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -109,9 +109,9 @@
 <!-- /////////////////////////////////////// -->
 <div class="container">
 
-    <div class="card" style="margin-top: 50px">
+    <div class="card"  style="margin-top: 50px;border-radius: 25px">
         <div class="card-header">
-            Featured
+            All employees
         </div>
         <div class="card-body">
 
@@ -152,6 +152,7 @@
 
     out.print("    </tbody>\n" +
             "</table>");
+
 %>
             <div class="d-inline p-2 bg-primary text-white">d-inline</div>
             <div class="d-inline p-2 bg-dark text-white">d-inline</div>

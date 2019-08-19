@@ -44,21 +44,21 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <button class="btn btn-outline-dark my-2 my-sm-0" style="margin-right: 7px" type="submit">Add new
-                    Employee
-                </button>
-            </li>
-            <li class="nav-item">
-                <button class="btn btn-outline-dark my-2 my-sm-0" style="margin-right: 7px" type="submit">Show all
-                </button>
-            </li>
-            <li class="nav-item">
-                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Edit employee</button>
-            </li>
+<%--        <ul class="navbar-nav mr-auto">--%>
+<%--            <li class="nav-item active">--%>
+<%--                <button class="btn btn-outline-dark my-2 my-sm-0" style="margin-right: 7px" type="submit">Add new--%>
+<%--                    Employee--%>
+<%--                </button>--%>
+<%--            </li>--%>
+<%--            <li class="nav-item">--%>
+<%--                <button class="btn btn-outline-dark my-2 my-sm-0" style="margin-right: 7px" type="submit">Show all--%>
+<%--                </button>--%>
+<%--            </li>--%>
+<%--            <li class="nav-item">--%>
+<%--                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Edit employee</button>--%>
+<%--            </li>--%>
 
-        </ul>
+<%--        </ul>--%>
 <%--        <form class="form-inline my-2 my-lg-0">--%>
 
 <%--            <button type="button" style="margin-right: 210px" class="btn btn-outline-info" data-toggle="modal"--%>
@@ -87,7 +87,7 @@
 
     <div class="card border-dark mb-3" style="border-radius: 25px;border: 2px solid #73AD21;">
         <div class="card-header">
-            Add New Employee
+            Edit Employee
         </div>
 
         <form action="update" method="post">
@@ -130,8 +130,8 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="">Date of joing and Date of Birth</span>
                     </div>
-                    <input name="dateOfJoining" type="date" class="form-control" placeholder="Date of Joining" required>
-                    <input name="dateOfBirth" type="date" class="form-control" placeholder="Date of Birth" required>
+                    <input name="dateOfJoining" type="date" class="form-control" placeholder="Date of Joining" required value=<%= employee.getDateOfJoining()%>>
+                    <input name="dateOfBirth" type="date" class="form-control" placeholder="Date of Birth" required value="<%= employee.getDateOfBirth()%>">
                 </div>
 
                 <br>
@@ -139,7 +139,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">Grade</label>
                     </div>
-                    <select name="grade" class="custom-select" id="inputGroupSelect01">
+                    <select name="grade" class="custom-select" id="inputGroupSelect01" onselect="<%=employee.getGrade()%>">
                         <option selected>Choose Grade</option>
                         <option value="G1" selected>G1</option>
                         <option value="G2">G2</option>

@@ -110,7 +110,7 @@ public class EmployeeDAO {
         try(Connection connection = ConnectionUtil.getConnection()){
             PreparedStatement preparedStatement=connection.prepareStatement(Constant.getAllEmployees);
             ResultSet resultSet = preparedStatement.executeQuery();
-
+            allEmployees.clear();
 
             Employee employee = null;
             while (resultSet.next()){

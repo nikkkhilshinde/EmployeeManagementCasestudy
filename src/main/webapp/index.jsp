@@ -10,10 +10,10 @@
 
     <%
         ServletContext context = config.getServletContext();
-        if (context.getAttribute("message") != null) {
-            out.println(context.getAttribute("message"));
-            context.removeAttribute("message");
-        }
+//        if (context.getAttribute("message") != null) {
+//            out.println(context.getAttribute("message"));
+//            context.removeAttribute("message");
+//        }
 
         if(session.getAttribute("username")!=null){
             RequestDispatcher dispatcher = request.getRequestDispatcher("inbox.jsp");
@@ -37,6 +37,20 @@
 </head>
 
 <body class="container bg-dark" style="margin-top: 100px; max-width: 500px;">
+
+<%
+
+    if (context.getAttribute("message") != null) {
+        out.print("<div class=\"card border-dark mb-3\" style=\"border-radius: 25px;border: 2px solid #73AD21;\">\n" +
+                "    <div class=\"card-header\">\n" +
+                "        Error" +
+                "    </div>\n" +
+                "    <div class=\"card-body\">");
+        out.println(context.getAttribute("message"));
+        out.print("</div></div>");
+        context.removeAttribute("message");
+    }
+%>
 
 <div class="card border-dark mb-3" style="border-radius: 25px;border: 2px solid #73AD21;">
     <div class="card-header">
