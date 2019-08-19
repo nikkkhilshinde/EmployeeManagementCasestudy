@@ -16,6 +16,9 @@ public class EmployeeService {
 
     }
 
+    public ArrayList<Employee> getNextOrPreviousSetOfEmployees(int offset){
+        return dao.getNextSetOfEmployees(offset);
+    }
     public String saveEmployeeDetails(Employee employee) throws SQLException {
         String result = dao.saveEmployeeDetails(employee);
         if (result.equals("true")) {

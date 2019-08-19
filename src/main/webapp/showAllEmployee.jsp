@@ -8,6 +8,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%
     if (session.getAttribute("username") == null) {
         response.sendRedirect("index.jsp");
@@ -111,7 +112,7 @@
 
     <div class="card"  style="margin-top: 50px;border-radius: 25px">
         <div class="card-header">
-            All employees
+            All employees(Showing 5 records per page)
         </div>
         <div class="card-body">
 
@@ -154,8 +155,29 @@
             "</table>");
 
 %>
-            <div class="d-inline p-2 bg-primary text-white">d-inline</div>
-            <div class="d-inline p-2 bg-dark text-white">d-inline</div>
+<%--            <div >--%>
+<%--                <form>--%>
+<%--                    <input type="submit" value="previous" class="btn btn-light d-inline">--%>
+<%--                </form>--%>
+<%--                <form>--%>
+<%--                    <input type="submit" value="next" class="btn btn-primary d-inline">--%>
+<%--                </form>--%>
+<%--            </div>--%>
+
+            <div class="container">
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <form class="form-inline pull-right" method="get" action="showAll">
+                            <input type="submit" value="Previous" class="btn btn-light">
+                        </form>
+                    </li>
+                    <li class="list-inline-item">
+                        <form class="form-inline pull-right" method="post" action="showAll">
+                            <input type="submit" value="Next" class="btn btn-primary d-inline">
+                        </form>
+                    </li>
+                </ul>
+            </div>
 
 </div>
 

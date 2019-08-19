@@ -19,4 +19,12 @@ public class Constant {
             "gender = ?," +
             "base_pay = ? " +
             "WHERE employee_id = ?";
+
+    public static String showNextOrPreviousEmployees = "SELECT *\n" +
+            "FROM   (SELECT EMPLOYEE_ID, FIRST_NAME, LAST_NAME, DATE_OF_JOINING, DATE_OF_BIRTH, DEPARTMENT_ID, GRADE, DESIGNATION, GENDER, BASE_PAY, rownum AS rnum\n" +
+            "        FROM   (SELECT EMPLOYEE_ID, FIRST_NAME, LAST_NAME, DATE_OF_JOINING, DATE_OF_BIRTH, DEPARTMENT_ID, GRADE, DESIGNATION, GENDER, BASE_PAY\n" +
+            "                FROM   EMPTABLE\n" +
+            "                ORDER BY FIRST_NAME)\n" +
+            "        WHERE rownum <= ?)\n" +
+            "WHERE  rnum > ?";
 }

@@ -101,7 +101,43 @@ public class EmployeeDAO {
         return retrievedEmployee;
     }
 
+    public ArrayList<Employee> getNextSetOfEmployees(int offset){
+        try(Connection connection = ConnectionUtil.getConnection()){
+            PreparedStatement preparedStatement=connection.prepareStatement(Constant.showNextOrPreviousEmployees);
+            preparedStatement.setInt(1,offset+5);
+            preparedStatement.setInt(2,offset);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            allEmployees.clear();
 
+            Employee employee = null;
+            while (resultSet.next()){
+                Date dateOfJoining = resultSet.getDate("date_of_joining");
+                Date dateOfBirth = resultSet.getDate("date_of_birth");
+                Integer departmentId = resultSet.getInt("department_id");
+                Integer basePay = resultSet.getInt("base_pay");
+
+                employee = new Employee();
+                employee.setEmployeeId(resultSet.getInt("employee_id"));
+                employee.setFirstName(resultSet.getString("first_name"));
+                employee.setLastName(resultSet.getString("last_name"));
+                employee.setDateOfJoining(dateOfJoining.toString());
+                employee.setDateOfBirth(dateOfBirth.toString());
+                employee.setDepartmentId(departmentId.toString());
+                employee.setGrade(resultSet.getString("grade"));
+                employee.setDesignation(resultSet.getString("designation"));
+                employee.setGender(resultSet.getString("gender"));
+                employee.setBasePay(basePay);
+
+                allEmployees.add(employee);
+                employee = null;
+            }
+
+            return allEmployees;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return allEmployees;
+        }
+    }
 
 
 
