@@ -48,7 +48,6 @@ public class AuthServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         RequestDispatcher requestDispatcher = req.getRequestDispatcher(pageToVisit);
         requestDispatcher.forward(req,resp);
     }

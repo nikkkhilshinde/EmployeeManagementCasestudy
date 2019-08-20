@@ -10,15 +10,19 @@ import java.util.ArrayList;
 public class EmployeeService {
     private EmployeeDAO dao = new EmployeeDAO();
 
-    public ArrayList<Employee> getAllEmployees(){
-        ArrayList<Employee> allEmployees =  dao.getAllEmployees();
+    public int getEmployeeCount(){
+        return dao.getEmployeeCount();
+    }
+    public ArrayList<Employee> getAllEmployees() {
+        ArrayList<Employee> allEmployees = dao.getAllEmployees();
         return allEmployees;
 
     }
 
-    public ArrayList<Employee> getNextOrPreviousSetOfEmployees(int offset){
+    public ArrayList<Employee> getNextOrPreviousSetOfEmployees(int offset) {
         return dao.getNextSetOfEmployees(offset);
     }
+
     public String saveEmployeeDetails(Employee employee) throws SQLException {
         String result = dao.saveEmployeeDetails(employee);
         if (result.equals("true")) {
@@ -27,24 +31,20 @@ public class EmployeeService {
         return result;
     }
 
-    public Employee getEmployeeById(Employee employee){
-
+    public Employee getEmployeeById(Employee employee) {
         Employee retrievedEmployee = dao.getEmployeeById(employee);
-
-        if(retrievedEmployee!=null){
+        if (retrievedEmployee != null) {
             return retrievedEmployee;
         }
         return retrievedEmployee;
     }
 
-    public String updateEmployee(Employee employee){
+    public String updateEmployee(Employee employee) {
         String temp = dao.updateEmployee(employee);
-        if(temp.equals("true")){
+        if (temp.equals("true")) {
             return "true";
-        }
-        else{
+        } else {
             return temp;
         }
-
     }
 }

@@ -28,11 +28,8 @@ public class InsertRecord extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         Employee employee = new Employee();
 
-
-
         String employeeId = req.getParameter("employeeId");
         String basePay = req.getParameter("basePay");
-
 
         employee.setFirstName(req.getParameter("firstName"));
         employee.setLastName(req.getParameter("lastName"));
@@ -43,31 +40,28 @@ public class InsertRecord extends HttpServlet {
         employee.setGender(req.getParameter("gender"));
         employee.setGrade(req.getParameter("grade"));
 
-
         try {
             employee.setEmployeeId(Integer.parseInt(employeeId));
             employee.setBasePay(Integer.parseInt(basePay));
             String message = employeeService.saveEmployeeDetails(employee);
-            if("true".equals(message)){
-                req.getServletContext().setAttribute("successMessage","New Employee created successfully");
-                req.getRequestDispatcher("adminHomepage.jsp").forward(req,resp);
-            }
-            else{
-                req.getServletContext().setAttribute("errorMessage",message);
-                req.getRequestDispatcher("inputDetails.jsp").forward(req,resp);
+            if ("true".equals(message)) {
+                req.getServletContext().setAttribute("successMessage", "New Employee created successfully");
+                req.getRequestDispatcher("adminHomepage.jsp").forward(req, resp);
+            } else {
+                req.getServletContext().setAttribute("errorMessage", message);
+                req.getRequestDispatcher("inputDetails.jsp").forward(req, resp);
             }
 
-        }catch (NumberFormatException ae){
-            req.getServletContext().setAttribute("errorMessage","salary and employee id should be integer");
+        } catch (NumberFormatException ae) {
+            req.getServletContext().setAttribute("errorMessage", "salary and employee id should be integer");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("inputDetails.jsp");
             try {
                 requestDispatcher.forward(req, resp);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        }
-        catch (Exception e) {
-            req.getServletContext().setAttribute("errorMessage",e.getMessage());
+        } catch (Exception e) {
+            req.getServletContext().setAttribute("errorMessage", e.getMessage());
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("inputDetails.jsp");
             try {
                 requestDispatcher.forward(req, resp);

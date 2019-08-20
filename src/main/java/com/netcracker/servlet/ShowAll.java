@@ -15,56 +15,53 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @WebServlet("/showAll")
-public class ShowAll  extends HttpServlet {
+public class ShowAll extends HttpServlet {
 
     private EmployeeService employeeService = null;
     private ServletContext servletContext = null;
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         employeeService = new EmployeeService();
         servletContext = config.getServletContext();
-        servletContext.setAttribute("offset",0);
+        servletContext.setAttribute("offset", 0);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int offset =(int) servletContext.getAttribute("offset");
-        offset = offset - 5;
+        int offset = (int) servletContext.getAttribute("offset");
+        if(offset>=0){
+            offset = offset - 5;
+        }
         ArrayList<Employee> allEmployees = employeeService.getNextOrPreviousSetOfEmployees(offset);
 
         servletContext.removeAttribute("offset");
-        servletContext.setAttribute("offset",offset);
-        System.out.println("offset:"+offset);
+        servletContext.setAttribute("offset", offset);
+        System.out.println("offset:" + offset);
 
         req.removeAttribute("allEmployees");
-        req.setAttribute("allEmployees",allEmployees);
+        req.setAttribute("allEmployees", allEmployees);
 
-//        for (Employee employee:allEmployees
-//             ) {
-//            resp.getWriter().println("Name:"+employee.getFirstName());
-//        }
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("showAllEmployee.jsp");
-        requestDispatcher.forward(req,resp);
+        requestDispatcher.forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        ArrayList<Employee> allEmployees = employeeService.getAllEmployees();
-        int offset =(int) servletContext.getAttribute("offset");
+
+        int offset = (int) servletContext.getAttribute("offset");
         ArrayList<Employee> allEmployees = employeeService.getNextOrPreviousSetOfEmployees(offset);
-        offset = offset + 5;
+        if(offset<employeeService.getEmployeeCount()){
+            offset = offset + 5;
+        }
+
         servletContext.removeAttribute("offset");
-        servletContext.setAttribute("offset",offset);
-        System.out.println("offset:"+offset);
+        servletContext.setAttribute("offset", offset);
+        System.out.println("offset:" + offset);
         req.removeAttribute("allEmployees");
-        req.setAttribute("allEmployees",allEmployees);
+        req.setAttribute("allEmployees", allEmployees);
 
-//        for (Employee employee:allEmployees
-//             ) {
-//            resp.getWriter().println("Name:"+employee.getFirstName());
-//        }
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("showAllEmployee.jsp");
-        requestDispatcher.forward(req,resp);
-
+        requestDispatcher.forward(req, resp);
     }
 }

@@ -12,26 +12,19 @@ import java.sql.SQLException;
 public class AdminDAO {
 
     public Admin getAdminByUsernameAndPassword(Admin admin) {
-
-        try
-        {
-            Connection connection = ConnectionUtil.getConnection();
+        try(Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(Constant.getAdminByUsernameAndPassword);
             preparedStatement.setString(1, admin.getUsername());
             preparedStatement.setString(2, admin.getPassword());
             ResultSet rs = preparedStatement.executeQuery();
-
             Admin result = new Admin();
             while (rs.next()) {
                 result.setPassword(rs.getString("password"));
                 result.setUsername(rs.getString("username"));
             }
             return result;
-        }
-        catch (Exception ae){
+        } catch (Exception ae) {
             return null;
         }
-
-
     }
 }

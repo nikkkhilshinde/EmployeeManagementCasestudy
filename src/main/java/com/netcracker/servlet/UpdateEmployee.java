@@ -20,18 +20,17 @@ public class UpdateEmployee extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        employeeService =new  EmployeeService();
+        employeeService = new EmployeeService();
         servletContext = config.getServletContext();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-//        Employee employee = (Employee) getServletContext().getAttribute("retrievedEmployee");
         Employee employee = new Employee();
 
         employee.setEmployeeId(Integer.parseInt(req.getParameter("employeeId")));
-        if(employeeService.getEmployeeById(employee)!=null){
+        if (employeeService.getEmployeeById(employee) != null) {
 
             String employeeId = req.getParameter("employeeId");
             String basePay = req.getParameter("basePay");
@@ -45,37 +44,28 @@ public class UpdateEmployee extends HttpServlet {
             employee.setDesignation(req.getParameter("designation"));
             employee.setGender(req.getParameter("gender"));
             employee.setGrade(req.getParameter("grade"));
-            try{
+            try {
                 employee.setBasePay(Integer.parseInt(basePay));
+            } catch (NumberFormatException ae) {
+                req.getServletContext().setAttribute("errorMessage", "Salary should be integer");
+                req.getRequestDispatcher("searchEmployee.jsp").forward(req, resp);
             }
-            catch (NumberFormatException ae){
-                req.getServletContext().setAttribute("errorMessage","Salary should be integer");
-                req.getRequestDispatcher("searchEmployee.jsp").forward(req,resp);
-            }
-
-
             String message = employeeService.updateEmployee(employee);
-
-            if("true".equals(message)){
-                servletContext.setAttribute("successMessage","Employee updates successfully");
-                req.getRequestDispatcher("searchEmployee.jsp").forward(req,resp);
+            if ("true".equals(message)) {
+                servletContext.setAttribute("successMessage", "Employee updates successfully");
+                req.getRequestDispatcher("searchEmployee.jsp").forward(req, resp);
                 System.out.println("right here");
-            }
-            else {
-                if(message.equals(null)){
-                    req.getRequestDispatcher("searchEmployee.jsp").forward(req,resp);
-                }
-                else{
-                servletContext.setAttribute("errorMessage",message);
-                req.getRequestDispatcher("searchEmployee.jsp").forward(req,resp);
+            } else {
+                if (message.equals(null)) {
+                    req.getRequestDispatcher("searchEmployee.jsp").forward(req, resp);
+                } else {
+                    servletContext.setAttribute("errorMessage", message);
+                    req.getRequestDispatcher("searchEmployee.jsp").forward(req, resp);
                 }
             }
-
-
-        }
-        else{
-            servletContext.setAttribute("errorMessage","Employee Not Found");
-            req.getRequestDispatcher("searchEmployee.jsp").forward(req,resp);
+        } else {
+            servletContext.setAttribute("errorMessage", "Employee Not Found");
+            req.getRequestDispatcher("searchEmployee.jsp").forward(req, resp);
         }
     }
 }

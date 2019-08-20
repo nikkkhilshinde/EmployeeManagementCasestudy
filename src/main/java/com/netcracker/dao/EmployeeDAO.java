@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class EmployeeDAO {
     private static Map<String,String> errorMap = new HashMap<>();
-
+    private ArrayList<Employee> allEmployees = new ArrayList<>();
     public EmployeeDAO(){
         errorMap.put("20001","Employee should be atleast 18 year old");
         errorMap.put("02290","Employee Id should be 6 digits only and should not start with 0");
@@ -24,13 +24,26 @@ public class EmployeeDAO {
         errorMap.put("00001","Employee already exist");
         errorMap.put("2291","Department Not found");
         errorMap.put("2290","Employee Id should be 6 digits only and should not start with 0");
-
     }
 
     public static String getErrorMessage(String errorCode){
         return errorMap.get(errorCode);
     }
 
+    public int getEmployeeCount(){
+        try(Connection connection = ConnectionUtil.getConnection()){
+            PreparedStatement preparedStatement = connection.prepareStatement(Constant.getEmployeeCount);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            int count = 0;
+            if(resultSet.next()){
+                count = resultSet.getInt(1);
+            }
+            return  count;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
     public String updateEmployee(Employee employee){
         try(Connection connection = ConnectionUtil.getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(Constant.updateEmployeeById);
@@ -48,13 +61,10 @@ public class EmployeeDAO {
             preparedStatement.setString(7,employee.getDesignation());
             preparedStatement.setString(8,employee.getGender());
             preparedStatement.setInt(9,employee.getBasePay());
-
             int i = preparedStatement.executeUpdate();
-
             return "true";
+
         } catch (SQLException e) {
-//            e.printStackTrace();
-//            return EmployeeDAO.getErrorMessage(String.valueOf(e.getErrorCode()));
             String errorMessage = EmployeeDAO.getErrorMessage(String.valueOf(e.getErrorCode()));
             if(errorMessage!=null){
                 return errorMessage;
@@ -131,7 +141,6 @@ public class EmployeeDAO {
                 allEmployees.add(employee);
                 employee = null;
             }
-
             return allEmployees;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -139,9 +148,6 @@ public class EmployeeDAO {
         }
     }
 
-
-
-    ArrayList<Employee> allEmployees = new ArrayList<>();
     public ArrayList<Employee> getAllEmployees(){
         try(Connection connection = ConnectionUtil.getConnection()){
             PreparedStatement preparedStatement=connection.prepareStatement(Constant.getAllEmployees);
@@ -178,34 +184,6 @@ public class EmployeeDAO {
         }
     }
 
-
-
-
-
-
-
-
-
-
-//    public Employee getEmployeeByUsernameAndPassword(Employee employee){
-//        Employee result = null;
-//        Connection connection = ConnectionUtil.getConnection();
-//        try{
-//            PreparedStatement preparedStatement = connection.prepareStatement(Constant.getEmployeeByUsernameAndPassword);
-//            preparedStatement.setString(1,employee.getUsername());
-//            preparedStatement.setString(2,employee.getPassword());
-//            ResultSet rs = preparedStatement.executeQuery();
-//            while (rs.next()){
-//                result =new Employee();
-//                result.setUsername(rs.getString("username"));
-//                result.setPassword(rs.getString("password"));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return result;
-//    }
-
     public String saveEmployeeDetails(Employee employee){
         Connection connection = ConnectionUtil.getConnection();
 
@@ -226,21 +204,17 @@ public class EmployeeDAO {
             preparedStatement.setString(9,employee.getGender());
             preparedStatement.setInt(10,employee.getBasePay());
 
-            System.out.println(java.sql.Date.valueOf("2013-09-04"));
-
             int i = preparedStatement.executeUpdate();
             return "true";
         }
         catch (SQLException ae){
-            //return EmployeeDAO.getErrorMessage(String.valueOf(ae.getErrorCode()));
             String errorMessage = EmployeeDAO.getErrorMessage(String.valueOf(ae.getErrorCode()));
             if(errorMessage!=null){
                 return errorMessage;
             }
             else{
-                return ae.getMessage()+"Errorcode:"+ae.getErrorCode();
+                return ae.getMessage()+"Error code:"+ae.getErrorCode();
             }
-            //return EmployeeDAO.getErrorMessage(String.valueOf(ae.getErrorCode()));
         } catch (ParseException e) {
             e.printStackTrace();
             return e.getLocalizedMessage();
