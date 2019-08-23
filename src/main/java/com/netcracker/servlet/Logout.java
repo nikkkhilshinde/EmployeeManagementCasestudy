@@ -1,5 +1,7 @@
 package com.netcracker.servlet;
 
+import com.netcracker.utility.Constant;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -26,6 +28,10 @@ public class Logout extends HttpServlet {
         session.invalidate();
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("index.jsp");
         servletContext.setAttribute("logoutMessage","Successfully logged out");
-        requestDispatcher.forward(req,resp);
+        try{
+            requestDispatcher.forward(req,resp);
+        }catch (Exception ae){
+            log(Constant.PAGE_NOT_FOUND);
+        }
     }
 }

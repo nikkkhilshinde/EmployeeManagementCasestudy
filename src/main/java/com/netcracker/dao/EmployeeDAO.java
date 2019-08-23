@@ -3,15 +3,14 @@ package com.netcracker.dao;
 import com.netcracker.dto.Employee;
 import com.netcracker.utility.ConnectionUtil;
 import com.netcracker.utility.Constant;
-import oracle.jdbc.driver.Const;
+
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.sql.Date;
+import java.util.*;
+import java.util.logging.Logger;
+
 
 public class EmployeeDAO {
 
@@ -33,7 +32,7 @@ public class EmployeeDAO {
 
     public int getEmployeeCount(){
         try(Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(Constant.getEmployeeCount);
+            PreparedStatement preparedStatement = connection.prepareStatement(Constant.SELECT_COUNT_FROM_EMPTABLE);
             ResultSet resultSet = preparedStatement.executeQuery();){
 
 
@@ -43,27 +42,26 @@ public class EmployeeDAO {
             }
             return  count;
         } catch (SQLException e) {
-            e.printStackTrace();
             return 0;
         }
     }
     public String updateEmployee(Employee employee){
         try(Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(Constant.updateEmployeeById);){
+            PreparedStatement preparedStatement = connection.prepareStatement(Constant.UPDATE_EMPLOYEE_BY_ID);){
 
 
 //
             preparedStatement.setInt(10,employee.getEmployeeId());
             preparedStatement.setString(1,employee.getFirstName());
             preparedStatement.setString(2,employee.getLastName());
-            preparedStatement.setDate(3, java.sql.Date.valueOf(employee.getDateOfJoining().toString()));
-            preparedStatement.setDate(4, java.sql.Date.valueOf(employee.getDateOfBirth().toString()));
+            preparedStatement.setDate(3, java.sql.Date.valueOf(employee.getDateOfJoining()));
+            preparedStatement.setDate(4, java.sql.Date.valueOf(employee.getDateOfBirth()));
             preparedStatement.setString(5,employee.getDepartmentId());
             preparedStatement.setString(6,employee.getGrade());
             preparedStatement.setString(7,employee.getDesignation());
             preparedStatement.setString(8,employee.getGender());
             preparedStatement.setInt(9,employee.getBasePay());
-            int i = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
             return "true";
 
         } catch (SQLException e) {
@@ -75,7 +73,7 @@ public class EmployeeDAO {
                 return e.getMessage()+"Error code:"+e.getErrorCode();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+
             return e.getMessage();
         }
 
@@ -85,38 +83,39 @@ public class EmployeeDAO {
         Employee retrievedEmployee = null;
 
         try(Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(Constant.getEmployeeById);){
+            PreparedStatement preparedStatement = connection.prepareStatement(Constant.SELECT_FROM_EMPTABLE_WHERE_EMPLOYEE_ID);){
 
             preparedStatement.setInt(1,employee.getEmployeeId());
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-                Date dateOfJoining = resultSet.getDate(Constant.dateOfJoining);
-                Date dateOfBirth = resultSet.getDate(Constant.dateOfBirth);
-                Integer departmentId = resultSet.getInt(Constant.departmentId);
-                Integer basePay = resultSet.getInt(Constant.basePay);
+                Date dateOfJoining = resultSet.getDate(Constant.DATE_OF_JOINING);
+                Date dateOfBirth = resultSet.getDate(Constant.DATE_OF_BIRTH);
+                Integer departmentId = resultSet.getInt(Constant.DEPARTMENT_ID);
+                Integer basePay = resultSet.getInt(Constant.BASE_PAY);
 
                 retrievedEmployee = new Employee();
-                retrievedEmployee.setEmployeeId(resultSet.getInt(Constant.employeeId));
-                retrievedEmployee.setFirstName(resultSet.getString(Constant.firstName));
-                retrievedEmployee.setLastName(resultSet.getString(Constant.lastName));
+                retrievedEmployee.setEmployeeId(resultSet.getInt(Constant.EMPLOYEE_ID));
+                retrievedEmployee.setFirstName(resultSet.getString(Constant.FIRST_NAME));
+                retrievedEmployee.setLastName(resultSet.getString(Constant.LAST_NAME));
                 retrievedEmployee.setDateOfJoining(dateOfJoining.toString());
                 retrievedEmployee.setDateOfBirth(dateOfBirth.toString());
                 retrievedEmployee.setDepartmentId(departmentId.toString());
-                retrievedEmployee.setGrade(resultSet.getString(Constant.grade));
-                retrievedEmployee.setDesignation(resultSet.getString(Constant.designation));
-                retrievedEmployee.setGender(resultSet.getString(Constant.gender));
+                retrievedEmployee.setGrade(resultSet.getString(Constant.GRADE));
+                retrievedEmployee.setDesignation(resultSet.getString(Constant.DESIGNATION));
+                retrievedEmployee.setGender(resultSet.getString(Constant.GENDER));
                 retrievedEmployee.setBasePay(basePay);
+
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception ae) {
+            Logger.getLogger("something");
         }
         return retrievedEmployee;
     }
 
-    public ArrayList<Employee> getNextSetOfEmployees(int offset,int limit){
+    public ArrayList<Employee> getNextSetOfEmployees(int offset, int limit){
         try(Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement preparedStatement=connection.prepareStatement(Constant.showNextOrPreviousEmployees);){
+            PreparedStatement preparedStatement=connection.prepareStatement(Constant.SHOW_NEXT_OR_PREVIOUS_EMPLOYEES);){
 
             preparedStatement.setInt(1,offset+limit);
             preparedStatement.setInt(2,offset);
@@ -125,57 +124,58 @@ public class EmployeeDAO {
 
             Employee employee = null;
             while (resultSet.next()){
-                Date dateOfJoining = resultSet.getDate(Constant.dateOfJoining);
-                Date dateOfBirth = resultSet.getDate(Constant.dateOfBirth);
-                Integer departmentId = resultSet.getInt(Constant.departmentId);
-                Integer basePay = resultSet.getInt(Constant.basePay);
+                Date dateOfJoining = resultSet.getDate(Constant.DATE_OF_JOINING);
+                Date dateOfBirth = resultSet.getDate(Constant.DATE_OF_BIRTH);
+                Integer departmentId = resultSet.getInt(Constant.DEPARTMENT_ID);
+                Integer basePay = resultSet.getInt(Constant.BASE_PAY);
 
                 employee = new Employee();
-                employee.setEmployeeId(resultSet.getInt(Constant.employeeId));
-                employee.setFirstName(resultSet.getString(Constant.firstName));
-                employee.setLastName(resultSet.getString(Constant.lastName));
+                employee.setEmployeeId(resultSet.getInt(Constant.EMPLOYEE_ID));
+                employee.setFirstName(resultSet.getString(Constant.FIRST_NAME));
+                employee.setLastName(resultSet.getString(Constant.LAST_NAME));
                 employee.setDateOfJoining(dateOfJoining.toString());
                 employee.setDateOfBirth(dateOfBirth.toString());
                 employee.setDepartmentId(departmentId.toString());
-                employee.setGrade(resultSet.getString(Constant.grade));
-                employee.setDesignation(resultSet.getString(Constant.designation));
-                employee.setGender(resultSet.getString(Constant.gender));
+                employee.setGrade(resultSet.getString(Constant.GRADE));
+                employee.setDesignation(resultSet.getString(Constant.DESIGNATION));
+                employee.setGender(resultSet.getString(Constant.GENDER));
                 employee.setBasePay(basePay);
 
                 allEmployees.add(employee);
                 employee = null;
+
             }
             return allEmployees;
         } catch (SQLException e) {
-            e.printStackTrace();
+
             return allEmployees;
         }
     }
 
     public ArrayList<Employee> getAllEmployees(){
         try(Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement preparedStatement=connection.prepareStatement(Constant.getAllEmployees);){
+            PreparedStatement preparedStatement=connection.prepareStatement(Constant.SELECT_FROM_EMPTABLE);){
 
             ResultSet resultSet = preparedStatement.executeQuery();
             allEmployees.clear();
 
             Employee employee = null;
             while (resultSet.next()){
-                Date dateOfJoining = resultSet.getDate(Constant.dateOfJoining);
-                Date dateOfBirth = resultSet.getDate(Constant.dateOfBirth);
-                Integer departmentId = resultSet.getInt(Constant.departmentId);
-                Integer basePay = resultSet.getInt(Constant.basePay);
+                Date dateOfJoining = resultSet.getDate(Constant.DATE_OF_JOINING);
+                Date dateOfBirth = resultSet.getDate(Constant.DATE_OF_BIRTH);
+                Integer departmentId = resultSet.getInt(Constant.DEPARTMENT_ID);
+                Integer basePay = resultSet.getInt(Constant.BASE_PAY);
 
                 employee = new Employee();
-                employee.setEmployeeId(resultSet.getInt(Constant.employeeId));
-                employee.setFirstName(resultSet.getString(Constant.firstName));
-                employee.setLastName(resultSet.getString(Constant.lastName));
+                employee.setEmployeeId(resultSet.getInt(Constant.EMPLOYEE_ID));
+                employee.setFirstName(resultSet.getString(Constant.FIRST_NAME));
+                employee.setLastName(resultSet.getString(Constant.LAST_NAME));
                 employee.setDateOfJoining(dateOfJoining.toString());
                 employee.setDateOfBirth(dateOfBirth.toString());
                 employee.setDepartmentId(departmentId.toString());
-                employee.setGrade(resultSet.getString(Constant.grade));
-                employee.setDesignation(resultSet.getString(Constant.designation));
-                employee.setGender(resultSet.getString(Constant.gender));
+                employee.setGrade(resultSet.getString(Constant.GRADE));
+                employee.setDesignation(resultSet.getString(Constant.DESIGNATION));
+                employee.setGender(resultSet.getString(Constant.GENDER));
                 employee.setBasePay(basePay);
 
                 allEmployees.add(employee);
@@ -184,7 +184,7 @@ public class EmployeeDAO {
 
             return allEmployees;
         } catch (SQLException e) {
-            e.printStackTrace();
+
             return allEmployees;
         }
     }
@@ -192,24 +192,21 @@ public class EmployeeDAO {
     public String saveEmployeeDetails(Employee employee){
         Connection connection = ConnectionUtil.getConnection();
 
-        try(PreparedStatement preparedStatement = connection.prepareStatement(Constant.setEmployeeDetails);){
+        try(PreparedStatement preparedStatement = connection.prepareStatement(Constant.INSERT_INTO_EMPTABLE_VALUES);){
 
-
-            Date dateOfjoining = new SimpleDateFormat("yyyy-MM-dd").parse(employee.getDateOfJoining());
-            Date dateOfBith = new SimpleDateFormat("yyyy-MM-dd").parse(employee.getDateOfBirth());
 
             preparedStatement.setInt(1,employee.getEmployeeId());
             preparedStatement.setString(2,employee.getFirstName());
             preparedStatement.setString(3,employee.getLastName());
-            preparedStatement.setDate(4, java.sql.Date.valueOf(employee.getDateOfJoining().toString()));
-            preparedStatement.setDate(5, java.sql.Date.valueOf(employee.getDateOfBirth().toString()));
+            preparedStatement.setDate(4, java.sql.Date.valueOf(employee.getDateOfJoining()));
+            preparedStatement.setDate(5, java.sql.Date.valueOf(employee.getDateOfBirth()));
             preparedStatement.setString(6,employee.getDepartmentId());
             preparedStatement.setString(7,employee.getGrade());
             preparedStatement.setString(8,employee.getDesignation());
             preparedStatement.setString(9,employee.getGender());
             preparedStatement.setInt(10,employee.getBasePay());
 
-            int i = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
             return "true";
         }
         catch (SQLException ae){
@@ -220,8 +217,7 @@ public class EmployeeDAO {
             else{
                 return ae.getMessage()+"Error code:"+ae.getErrorCode();
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             return e.getLocalizedMessage();
         }
     }

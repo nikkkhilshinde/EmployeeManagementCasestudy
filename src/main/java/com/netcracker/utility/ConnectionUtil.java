@@ -21,9 +21,7 @@ public class ConnectionUtil {
                 connection = dataSource.getConnection();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
         } catch (NamingException e) {
-            e.printStackTrace();
         }
         return connection;
     }

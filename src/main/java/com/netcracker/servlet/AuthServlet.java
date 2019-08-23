@@ -1,9 +1,8 @@
 package com.netcracker.servlet;
 
 import com.netcracker.dto.Admin;
-import com.netcracker.dto.Employee;
 import com.netcracker.services.AdminService;
-
+import com.netcracker.utility.Constant;
 
 
 import javax.servlet.RequestDispatcher;
@@ -37,7 +36,8 @@ public class AuthServlet extends HttpServlet {
 
         String pageToVisit = "";
         try {
-            if (adminService.validateAdmin(admin)) {
+            boolean bool = adminService.validateAdmin(admin);
+            if (bool) {
                 pageToVisit = "adminHomepage.jsp";
                 HttpSession session = req.getSession(true);
                 session.setAttribute("username" , admin.getUsername());
@@ -46,9 +46,13 @@ public class AuthServlet extends HttpServlet {
                 context.setAttribute("message","Invalid Credentials");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log("error");
         }
         RequestDispatcher requestDispatcher = req.getRequestDispatcher(pageToVisit);
-        requestDispatcher.forward(req,resp);
+        try{
+            requestDispatcher.forward(req,resp);
+        }catch (Exception ae){
+            log(Constant.PAGE_NOT_FOUND);
+        }
     }
 }

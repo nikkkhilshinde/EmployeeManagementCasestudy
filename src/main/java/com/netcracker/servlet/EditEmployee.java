@@ -2,6 +2,7 @@ package com.netcracker.servlet;
 
 import com.netcracker.dto.Employee;
 import com.netcracker.services.EmployeeService;
+import com.netcracker.utility.Constant;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -32,16 +33,24 @@ public class EditEmployee extends HttpServlet {
             employee.setEmployeeId(Integer.parseInt(req.getParameter("employeeId")));
         } catch (NumberFormatException a) {
             req.getServletContext().setAttribute("errorMessage", "Employee Id should be integer");
-            req.getRequestDispatcher("searchEmployee.jsp").forward(req, resp);
+            try{req.getRequestDispatcher("searchEmployee.jsp").forward(req, resp);}
+            catch (Exception ae){
+                log(Constant.PAGE_NOT_FOUND);
+            }
+
         }
         Employee retrievedEmployee = employeeService.getEmployeeById(employee);
 
         if (retrievedEmployee != null) {
             servletContext.setAttribute("retrievedEmployee", retrievedEmployee);
-            req.getRequestDispatcher("editEmployee.jsp").forward(req, resp);
+            try{req.getRequestDispatcher("editEmployee.jsp").forward(req, resp);}
+            catch (Exception ae){log(Constant.PAGE_NOT_FOUND);}
         } else {
             servletContext.setAttribute("errorMessage", "Employee with id:"+ employee.getEmployeeId() +" not found");
-            req.getRequestDispatcher("searchEmployee.jsp").forward(req, resp);
+            try{req.getRequestDispatcher("searchEmployee.jsp").forward(req, resp);}
+            catch (Exception ae){
+                log(Constant.PAGE_NOT_FOUND);
+            }
         }
     }
 }

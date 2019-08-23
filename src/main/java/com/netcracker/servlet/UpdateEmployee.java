@@ -31,13 +31,19 @@ public class UpdateEmployee extends HttpServlet {
 
         Employee employee = new Employee();
 
-        employee.setEmployeeId(Integer.parseInt(req.getParameter("employeeId")));
+        try{employee.setEmployeeId(Integer.parseInt(req.getParameter("employeeId")));}
+        catch (Exception ae){
+            log("Employee id must be integer");
+        }
         if (employeeService.getEmployeeById(employee) != null) {
 
             String employeeId = req.getParameter("employeeId");
             String basePay = req.getParameter("basePay");
 
-            employee.setEmployeeId(Integer.parseInt(employeeId));
+            try{employee.setEmployeeId(Integer.parseInt(employeeId));}
+            catch (Exception ae){
+                log("employee id must be integer");
+            }
             employee.setFirstName(req.getParameter("firstName"));
             employee.setLastName(req.getParameter("lastName"));
             employee.setDateOfJoining(req.getParameter("dateOfJoining"));
@@ -49,25 +55,33 @@ public class UpdateEmployee extends HttpServlet {
             try {
                 employee.setBasePay(Integer.parseInt(basePay));
             } catch (NumberFormatException ae) {
-                req.getServletContext().setAttribute(Constant.errorMessage, "Salary should be integer");
-                req.getRequestDispatcher(Constant.searchEmployeePage).forward(req, resp);
+                req.getServletContext().setAttribute(Constant.ERROR_MESSAGE, "Salary should be integer");
+                try{
+                    req.getRequestDispatcher(Constant.SEARCH_EMPLOYEE_JSP).forward(req, resp);
+                }catch (Exception ar){log(Constant.PAGE_NOT_FOUND);}
             }
             String message = employeeService.updateEmployee(employee);
             if ("true".equals(message)) {
                 servletContext.setAttribute("successMessage", "Employee updates successfully");
-                req.getRequestDispatcher(Constant.searchEmployeePage).forward(req, resp);
+                try{req.getRequestDispatcher(Constant.SEARCH_EMPLOYEE_JSP).forward(req, resp);}
+                catch (Exception a){log(Constant.PAGE_NOT_FOUND);}
             } else {
                 if (message!=null) {
 
-                    servletContext.setAttribute(Constant.errorMessage, message);
-                    req.getRequestDispatcher(Constant.searchEmployeePage).forward(req, resp);
+                    servletContext.setAttribute(Constant.ERROR_MESSAGE, message);
+                    try{req.getRequestDispatcher(Constant.SEARCH_EMPLOYEE_JSP).forward(req, resp);}
+                    catch (Exception ae){log("page not found");}
                 } else {
-                    req.getRequestDispatcher(Constant.searchEmployeePage).forward(req, resp);
+                    try{req.getRequestDispatcher(Constant.SEARCH_EMPLOYEE_JSP).forward(req, resp);}
+                    catch (Exception ae){log("page not found");}
                 }
             }
         } else {
-            servletContext.setAttribute(Constant.errorMessage, "Employee Not Found");
-            req.getRequestDispatcher(Constant.searchEmployeePage).forward(req, resp);
+            servletContext.setAttribute(Constant.ERROR_MESSAGE, "Employee Not Found");
+            try{req.getRequestDispatcher(Constant.SEARCH_EMPLOYEE_JSP).forward(req, resp);}
+            catch (Exception a){
+                log(Constant.PAGE_NOT_FOUND);
+            }
         }
     }
 }

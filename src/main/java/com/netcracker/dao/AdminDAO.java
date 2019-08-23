@@ -15,7 +15,7 @@ public class AdminDAO {
 
         ResultSet rs = null;
         try(Connection connection = ConnectionUtil.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(Constant.getAdminByUsernameAndPassword);) {
+            PreparedStatement preparedStatement = connection.prepareStatement(Constant.SELECT);) {
             preparedStatement.setString(1, admin.getUsername());
             preparedStatement.setString(2, admin.getPassword());
             rs = preparedStatement.executeQuery();

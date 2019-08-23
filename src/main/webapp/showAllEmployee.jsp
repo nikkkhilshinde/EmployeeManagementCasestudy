@@ -51,9 +51,21 @@
 
     <div class="card" style="margin-top: 50px;border-radius: 25px">
         <div class="card-header">
-            All employees(Showing 5 records per page)
+            All employees
         </div>
         <div class="card-body">
+            <form action="recordsPerPage" method="post">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Set records per page</span>
+                    </div>
+
+                    <input name="count" type="number" class="form-control" placeholder="records per page"
+                           required>
+                    <input type="submit" class="btn btn-info" value="update">
+                </div>
+            </form>
+            <hr>
             <%
                 out.print("<table class=\"table table-bordered \">\n" +
                         "    <thead >\n" +
@@ -107,10 +119,5 @@
                 </ul>
             </div>
         </div>
-
-        <form action="recordsPerPage" method="post">
-            <input type="number" name="count">
-            <input type="submit" value="update">
-        </form>
 </body>
 </html>
