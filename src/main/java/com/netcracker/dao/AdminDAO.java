@@ -11,12 +11,14 @@ import java.sql.SQLException;
 
 public class AdminDAO {
 
-    public Admin getAdminByUsernameAndPassword(Admin admin) {
+    public Admin getAdminByUsernameAndPassword(Admin admin) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
         try(Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(Constant.getAdminByUsernameAndPassword);
+            preparedStatement = connection.prepareStatement(Constant.getAdminByUsernameAndPassword);
             preparedStatement.setString(1, admin.getUsername());
             preparedStatement.setString(2, admin.getPassword());
-            ResultSet rs = preparedStatement.executeQuery();
+            rs = preparedStatement.executeQuery();
             Admin result = new Admin();
             while (rs.next()) {
                 result.setPassword(rs.getString("password"));
@@ -25,6 +27,9 @@ public class AdminDAO {
             return result;
         } catch (Exception ae) {
             return null;
+        }finally {
+            preparedStatement.close();
+            rs.close();
         }
     }
 }

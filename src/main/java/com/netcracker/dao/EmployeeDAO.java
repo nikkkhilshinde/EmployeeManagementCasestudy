@@ -111,10 +111,10 @@ public class EmployeeDAO {
         return retrievedEmployee;
     }
 
-    public ArrayList<Employee> getNextSetOfEmployees(int offset){
+    public ArrayList<Employee> getNextSetOfEmployees(int offset,int limit){
         try(Connection connection = ConnectionUtil.getConnection()){
             PreparedStatement preparedStatement=connection.prepareStatement(Constant.showNextOrPreviousEmployees);
-            preparedStatement.setInt(1,offset+5);
+            preparedStatement.setInt(1,offset+limit);
             preparedStatement.setInt(2,offset);
             ResultSet resultSet = preparedStatement.executeQuery();
             allEmployees.clear();

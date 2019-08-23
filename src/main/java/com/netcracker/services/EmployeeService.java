@@ -19,8 +19,8 @@ public class EmployeeService {
 
     }
 
-    public ArrayList<Employee> getNextOrPreviousSetOfEmployees(int offset) {
-        return dao.getNextSetOfEmployees(offset);
+    public ArrayList<Employee> getNextOrPreviousSetOfEmployees(int offset,int limit) {
+        return dao.getNextSetOfEmployees(offset,limit);
     }
 
     public String saveEmployeeDetails(Employee employee) throws SQLException {

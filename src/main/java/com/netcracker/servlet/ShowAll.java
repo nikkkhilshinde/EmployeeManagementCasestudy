@@ -25,15 +25,18 @@ public class ShowAll extends HttpServlet {
         employeeService = new EmployeeService();
         servletContext = config.getServletContext();
         servletContext.setAttribute("offset", 0);
+        servletContext.setAttribute("limit",2);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int offset = (int) servletContext.getAttribute("offset");
+        Integer limit = (Integer) servletContext.getAttribute("limit");
         if(offset>=0){
-            offset = offset - 5;
+
+            offset = offset - limit;
         }
-        ArrayList<Employee> allEmployees = employeeService.getNextOrPreviousSetOfEmployees(offset);
+        ArrayList<Employee> allEmployees = employeeService.getNextOrPreviousSetOfEmployees(offset,limit);
 
         servletContext.removeAttribute("offset");
         servletContext.setAttribute("offset", offset);
@@ -48,11 +51,12 @@ public class ShowAll extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        Integer limit = (Integer) servletContext.getAttribute("limit");
         int offset = (int) servletContext.getAttribute("offset");
-        ArrayList<Employee> allEmployees = employeeService.getNextOrPreviousSetOfEmployees(offset);
+        ArrayList<Employee> allEmployees = employeeService.getNextOrPreviousSetOfEmployees(offset,limit);
         if(offset<employeeService.getEmployeeCount()){
-            offset = offset + 5;
+
+            offset = offset + limit;
         }
 
         servletContext.removeAttribute("offset");
