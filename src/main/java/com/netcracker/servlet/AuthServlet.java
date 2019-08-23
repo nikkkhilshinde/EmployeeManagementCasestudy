@@ -3,9 +3,9 @@ package com.netcracker.servlet;
 import com.netcracker.dto.Admin;
 import com.netcracker.dto.Employee;
 import com.netcracker.services.AdminService;
-import com.netcracker.services.EmployeeService;
 
-import javax.naming.Context;
+
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -16,17 +16,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
+
 
 @WebServlet("/AuthServlet")
 public class AuthServlet extends HttpServlet {
-    AdminService adminService = null;
+    private AdminService adminService = null;
     private ServletContext context = null;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         adminService = new AdminService();
-        this.context = config.getServletContext();
+        context = config.getServletContext();
     }
 
     @Override

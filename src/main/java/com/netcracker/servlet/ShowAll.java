@@ -2,6 +2,8 @@ package com.netcracker.servlet;
 
 import com.netcracker.dto.Employee;
 import com.netcracker.services.EmployeeService;
+import com.netcracker.utility.Constant;
+import oracle.jdbc.driver.Const;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -24,26 +26,25 @@ public class ShowAll extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         employeeService = new EmployeeService();
         servletContext = config.getServletContext();
-        servletContext.setAttribute("offset", 0);
-        servletContext.setAttribute("limit",2);
+        servletContext.setAttribute(Constant.offset, 0);
+        servletContext.setAttribute(Constant.limit,2);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int offset = (int) servletContext.getAttribute("offset");
-        Integer limit = (Integer) servletContext.getAttribute("limit");
+        int offset = (int) servletContext.getAttribute(Constant.offset);
+        Integer limit = (Integer) servletContext.getAttribute(Constant.limit);
         if(offset>=0){
 
             offset = offset - limit;
         }
         ArrayList<Employee> allEmployees = employeeService.getNextOrPreviousSetOfEmployees(offset,limit);
 
-        servletContext.removeAttribute("offset");
-        servletContext.setAttribute("offset", offset);
-        System.out.println("offset:" + offset);
+        servletContext.removeAttribute(Constant.offset);
+        servletContext.setAttribute(Constant.offset, offset);
 
-        req.removeAttribute("allEmployees");
-        req.setAttribute("allEmployees", allEmployees);
+        req.removeAttribute(Constant.allEmployees);
+        req.setAttribute(Constant.allEmployees, allEmployees);
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("showAllEmployee.jsp");
         requestDispatcher.forward(req, resp);
@@ -51,19 +52,18 @@ public class ShowAll extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer limit = (Integer) servletContext.getAttribute("limit");
-        int offset = (int) servletContext.getAttribute("offset");
+        Integer limit = (Integer) servletContext.getAttribute(Constant.limit);
+        int offset = (int) servletContext.getAttribute(Constant.offset);
         ArrayList<Employee> allEmployees = employeeService.getNextOrPreviousSetOfEmployees(offset,limit);
         if(offset<employeeService.getEmployeeCount()){
 
             offset = offset + limit;
         }
 
-        servletContext.removeAttribute("offset");
-        servletContext.setAttribute("offset", offset);
-        System.out.println("offset:" + offset);
-        req.removeAttribute("allEmployees");
-        req.setAttribute("allEmployees", allEmployees);
+        servletContext.removeAttribute(Constant.offset);
+        servletContext.setAttribute(Constant.offset, offset);
+        req.removeAttribute(Constant.allEmployees);
+        req.setAttribute(Constant.allEmployees, allEmployees);
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("showAllEmployee.jsp");
         requestDispatcher.forward(req, resp);

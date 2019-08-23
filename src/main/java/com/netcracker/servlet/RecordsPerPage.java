@@ -25,7 +25,6 @@ public class RecordsPerPage extends HttpServlet {
         servletContext.removeAttribute("offset");
         servletContext.setAttribute("offset",0);
 
-        System.out.println(limit);
         servletContext.removeAttribute("limit");
         servletContext.setAttribute("limit",limit);
         req.getRequestDispatcher("/showAll").forward(req,resp);

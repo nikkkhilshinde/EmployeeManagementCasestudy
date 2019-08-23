@@ -61,7 +61,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Employee Id</span>
                     </div>
-                    <input name="employeeId" type="text" class="form-control" placeholder="Employee Id"
+                    <input name="employee_id" type="text" class="form-control" placeholder="Employee Id"
                            aria-label="employeeId"
                            required>
                 </div>
@@ -70,24 +70,23 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">First and last name</span>
                     </div>
-                    <input name="firstName" type="text" class="form-control" placeholder="First Name" required>
-                    <input name="lastName" type="text" class="form-control" placeholder="Last Name" required>
+                    <input name="first_name" type="text" class="form-control" placeholder="First Name" required>
+                    <input name="last_name" type="text" class="form-control" placeholder="Last Name" required>
                 </div>
                 <br>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Department Id</span>
                     </div>
-                    <input name="departmentId" type="text" class="form-control" placeholder="Department Id"
-                           aria-label="employeeId"
+                    <input name="department_id" type="text" class="form-control" placeholder="Department Id"
                            required>
                 </div>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Date of joing and Date of Birth</span>
                     </div>
-                    <input name="dateOfJoining" type="date" class="form-control" placeholder="Date of Joining" required>
-                    <input name="dateOfBirth" type="date" class="form-control" placeholder="Date of Birth" required>
+                    <input name="date_of_joining" type="date" class="form-control" placeholder="Date of Joining" required>
+                    <input name="date_of_birth" type="date" class="form-control" placeholder="Date of Birth" required>
                 </div>
                 <br>
 
@@ -129,7 +128,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">₹</span>
                     </div>
-                    <input name="basePay" type="text" class="form-control" placeholder="Salary"
+                    <input name="base_pay" type="text" class="form-control" placeholder="Salary"
                            aria-label="Amount (to the nearest rupees)"
                            required>
                     <div class="input-group-append">

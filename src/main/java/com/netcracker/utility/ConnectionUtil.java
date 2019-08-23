@@ -11,6 +11,7 @@ import java.sql.SQLException;
 public class ConnectionUtil {
     private static Connection connection;
 
+    private ConnectionUtil(){}
     public static Connection getConnection() {
         try {
             if (connection == null || connection.isClosed()) {

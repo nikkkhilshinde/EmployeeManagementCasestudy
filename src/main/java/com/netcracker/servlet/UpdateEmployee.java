@@ -2,6 +2,8 @@ package com.netcracker.servlet;
 
 import com.netcracker.dto.Employee;
 import com.netcracker.services.EmployeeService;
+import com.netcracker.utility.Constant;
+
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -47,25 +49,25 @@ public class UpdateEmployee extends HttpServlet {
             try {
                 employee.setBasePay(Integer.parseInt(basePay));
             } catch (NumberFormatException ae) {
-                req.getServletContext().setAttribute("errorMessage", "Salary should be integer");
-                req.getRequestDispatcher("searchEmployee.jsp").forward(req, resp);
+                req.getServletContext().setAttribute(Constant.errorMessage, "Salary should be integer");
+                req.getRequestDispatcher(Constant.searchEmployeePage).forward(req, resp);
             }
             String message = employeeService.updateEmployee(employee);
             if ("true".equals(message)) {
                 servletContext.setAttribute("successMessage", "Employee updates successfully");
-                req.getRequestDispatcher("searchEmployee.jsp").forward(req, resp);
-                System.out.println("right here");
+                req.getRequestDispatcher(Constant.searchEmployeePage).forward(req, resp);
             } else {
-                if (message.equals(null)) {
-                    req.getRequestDispatcher("searchEmployee.jsp").forward(req, resp);
+                if (message!=null) {
+
+                    servletContext.setAttribute(Constant.errorMessage, message);
+                    req.getRequestDispatcher(Constant.searchEmployeePage).forward(req, resp);
                 } else {
-                    servletContext.setAttribute("errorMessage", message);
-                    req.getRequestDispatcher("searchEmployee.jsp").forward(req, resp);
+                    req.getRequestDispatcher(Constant.searchEmployeePage).forward(req, resp);
                 }
             }
         } else {
-            servletContext.setAttribute("errorMessage", "Employee Not Found");
-            req.getRequestDispatcher("searchEmployee.jsp").forward(req, resp);
+            servletContext.setAttribute(Constant.errorMessage, "Employee Not Found");
+            req.getRequestDispatcher(Constant.searchEmployeePage).forward(req, resp);
         }
     }
 }

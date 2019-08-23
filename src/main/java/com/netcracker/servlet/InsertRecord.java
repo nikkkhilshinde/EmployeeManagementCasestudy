@@ -3,6 +3,8 @@ package com.netcracker.servlet;
 
 import com.netcracker.dto.Employee;
 import com.netcracker.services.EmployeeService;
+import com.netcracker.utility.Constant;
+import oracle.jdbc.driver.Const;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -28,41 +30,42 @@ public class InsertRecord extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         Employee employee = new Employee();
 
-        String employeeId = req.getParameter("employeeId");
-        String basePay = req.getParameter("basePay");
+        String employeeId = req.getParameter(Constant.employeeId);
+        String basePay = req.getParameter(Constant.basePay);
 
-        employee.setFirstName(req.getParameter("firstName"));
-        employee.setLastName(req.getParameter("lastName"));
-        employee.setDateOfJoining(req.getParameter("dateOfJoining"));
-        employee.setDateOfBirth(req.getParameter("dateOfBirth"));
-        employee.setDepartmentId(req.getParameter("departmentId"));
-        employee.setDesignation(req.getParameter("designation"));
-        employee.setGender(req.getParameter("gender"));
-        employee.setGrade(req.getParameter("grade"));
+        employee.setFirstName(req.getParameter(Constant.firstName));
+        employee.setLastName(req.getParameter(Constant.lastName));
+        employee.setDateOfJoining(req.getParameter(Constant.dateOfJoining));
+        employee.setDateOfBirth(req.getParameter(Constant.dateOfBirth));
+        employee.setDepartmentId(req.getParameter(Constant.departmentId));
+        employee.setDesignation(req.getParameter(Constant.designation));
+        employee.setGender(req.getParameter(Constant.gender));
+        employee.setGrade(req.getParameter(Constant.grade));
 
         try {
             employee.setEmployeeId(Integer.parseInt(employeeId));
             employee.setBasePay(Integer.parseInt(basePay));
             String message = employeeService.saveEmployeeDetails(employee);
             if ("true".equals(message)) {
-                req.getServletContext().setAttribute("successMessage", "New Employee created successfully");
-                req.getRequestDispatcher("adminHomepage.jsp").forward(req, resp);
+                req.getServletContext().setAttribute(Constant.successMessage, "New Employee created successfully");
+                req.getRequestDispatcher(Constant.adminHomepage).forward(req, resp);
             } else {
-                req.getServletContext().setAttribute("errorMessage", message);
-                req.getRequestDispatcher("inputDetails.jsp").forward(req, resp);
+                req.getServletContext().setAttribute(Constant.errorMessage, message);
+                req.getRequestDispatcher(Constant.inputDetailsPage).forward(req, resp);
             }
 
         } catch (NumberFormatException ae) {
-            req.getServletContext().setAttribute("errorMessage", "salary and employee id should be integer");
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("inputDetails.jsp");
+            req.getServletContext().setAttribute(Constant.errorMessage, "salary and employee id should be integer");
+            ae.printStackTrace();
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher(Constant.inputDetailsPage);
             try {
                 requestDispatcher.forward(req, resp);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         } catch (Exception e) {
-            req.getServletContext().setAttribute("errorMessage", e.getMessage());
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("inputDetails.jsp");
+            req.getServletContext().setAttribute(Constant.errorMessage, e.getMessage());
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher(Constant.inputDetailsPage);
             try {
                 requestDispatcher.forward(req, resp);
             } catch (IOException ex) {
